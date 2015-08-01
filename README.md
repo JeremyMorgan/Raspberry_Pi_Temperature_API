@@ -1,4 +1,4 @@
-# Raspberry_Pi_Temperature_API
+# Raspberry Pi Temperature API
 An ASP.Net Web API to read and produce data from the Raspberry Pi Temperature Sensor Project <a href="https://github.com/JeremyMorgan/Raspberry_Pi_Temperature">Found Here</a>
 
 This is an API for both the storage and retrieval of items. 
