@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -154,6 +155,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDataMapper.cs" />
+    <Compile Include="Models\Humidity.cs" />
     <Compile Include="Models\SingleTempResult.cs" />
     <Compile Include="Models\TempReading.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
