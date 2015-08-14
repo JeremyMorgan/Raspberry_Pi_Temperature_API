@@ -28,7 +28,7 @@ namespace TemperatureCheck.Repository
                 }
 
                 // build our SQL Query
-                string ourSql = "INSERT INTO [rpi_roomtemp].[Status] ([tempFahrenheit],[tempCelcius],[humidity],[timestamp]) VALUES (@tempCelcius, @tempFahrenheit, @humidity, SYSDATETIME())";
+                string ourSql = "INSERT INTO [rpi_roomtemp].[Status] ([tempFahrenheit],[tempCelcius],[humidity],[timestamp]) VALUES (@tempFahrenheit, @tempCelcius, @humidity, SYSDATETIME())";
 
                 // init command
                 var cmd = new SqlCommand(ourSql)
