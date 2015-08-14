@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\jmorgan\Documents\Visual Studio 2015\Projects\Raspberry_Pi_Temperature_API\TemperatureCheck\obj\Release\Package\PackageTmp" managedRuntimeVersion="v4.0" />
+  <setAcl path="C:\Users\jmorgan\Documents\Visual Studio 2015\Projects\Raspberry_Pi_Temperature_API\TemperatureCheck\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\Users\jmorgan\Documents\Visual Studio 2015\Projects\Raspberry_Pi_Temperature_API\TemperatureCheck\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

@@ -9,16 +9,16 @@ using TemperatureCheck.Models;
 
 namespace TemperatureCheck.Repository
 {
-    public class ReadingDataMapper : IDataMapper
+    public class StatusDataMapper : IDataMapper
     {
         private readonly SqlConnection _sqlConnection;
         private readonly string _sqlConnectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
 
-        public ReadingDataMapper()
+        public StatusDataMapper()
         {
             _sqlConnection = new SqlConnection(_sqlConnectionString);
         }
-        public bool ReadingInsert(float ourTemperature)
+        public bool StatusInsert(float tempFahrenheit, float tempCelcius, float humidity)
         {
             try
             {
@@ -28,16 +28,23 @@ namespace TemperatureCheck.Repository
                 }
 
                 // build our SQL Query
-                string ourSql = "INSERT INTO [rpi_roomtemp].[Reading] ([ReadingTemp],[ReadingTime]) VALUES (@Temperature, SYSDATETIME())";
-                
+                string ourSql = "INSERT INTO [rpi_roomtemp].[Status] ([tempFahrenheit],[tempCelcius],[humidity],[timestamp]) VALUES (@tempCelcius, @tempFahrenheit, @humidity, SYSDATETIME())";
+
+                // init command
                 var cmd = new SqlCommand(ourSql)
                 {
                     Connection = _sqlConnection
                 };
 
-                cmd.Parameters.AddWithValue("@Temperature", ourTemperature);
+                // tack on parameters
+                cmd.Parameters.AddWithValue("@tempFahrenheit", tempFahrenheit);
+                cmd.Parameters.AddWithValue("@tempCelcius", tempCelcius);
+                cmd.Parameters.AddWithValue("@humidity", humidity);
 
+                // execute SQL
                 cmd.ExecuteScalar();
+
+                // close connection
                 _sqlConnection.Close();
 
                 return true;
@@ -51,14 +58,12 @@ namespace TemperatureCheck.Repository
             }
         }
 
-        public List<SingleTempResult> ReadingGet(int count, string sortOrder)
+        public List<Status> StatusGet(int count, string sortOrder)
         {
-            var ourReturnList = new List<SingleTempResult>();
-            
+            var ourReturnList = new List<Status>();
             try
             {
-
-               using (_sqlConnection)
+                using (_sqlConnection)
                 {
                     _sqlConnection.Open();
                     //
@@ -67,7 +72,7 @@ namespace TemperatureCheck.Repository
                     using (
                         SqlCommand command =
                             new SqlCommand(
-                                "SELECT TOP " + count + " [ReadingTemp],[ReadingTime] FROM[rpi_roomtemp].[rpi_roomtemp].[Reading] ORDER BY ReadingID " + sortOrder,
+                                "SELECT TOP " + count + " [tempFahrenheit],[tempCelcius],[humidity],[timestamp] FROM [rpi_roomtemp].[rpi_roomtemp].[Status] ORDER BY StatusID " + sortOrder,
                                 _sqlConnection))
                     {
                         //
@@ -77,37 +82,34 @@ namespace TemperatureCheck.Repository
 
                         while (reader.Read())
                         {
-                            var ourSingleResult = new SingleTempResult();
-                            //Debug.WriteLine("VALUE IS " + reader.GetFloat(0));
-
-                            ourSingleResult.ReadingTemp = (float) reader.GetDouble(0);
-                            ourSingleResult.ReadingTime = reader.GetDateTime(1);
-
-                            ourReturnList.Add(ourSingleResult);
-
+                            var ourStatus = new Status()
+                            {
+                                TempFahrenheit = (float) reader.GetDouble(0),
+                                TempCelcius = (float) reader.GetDouble(1),
+                                Humidity = (float) reader.GetDouble(2),
+                                TimeStamp = reader.GetDateTime(3)
+                            };
+                            ourReturnList.Add(ourStatus);
                         }
                     }
                 }
-
                 _sqlConnection.Close();
-
             }
             catch (SqlException ex)
             {
                 Debug.Write(ex.ToString());
             }
-
             return ourReturnList;
         }
 
         // not used here, deprecated
-        public bool StatusInsert(float tempFahrenheit, float tempCelcius, float humidity)
+        public bool ReadingInsert(float ourTemperature)
         {
             throw new NotImplementedException();
         }
 
         // not used here, deprecated
-        public List<Status> StatusGet(int count, string sortOrder)
+        public List<SingleTempResult> ReadingGet(int count, string sortOrder)
         {
             throw new NotImplementedException();
         }

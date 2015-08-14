@@ -16,7 +16,7 @@ namespace TemperatureCheck
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, count = UrlParameter.Optional, sortorder = UrlParameter.Optional, temp = UrlParameter.Optional}
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, count = UrlParameter.Optional, sortorder = UrlParameter.Optional, temp = UrlParameter.Optional, tempFahrenheit = UrlParameter.Optional, tempCelcius = UrlParameter.Optional, humidity = UrlParameter.Optional }
             );
            
         }
